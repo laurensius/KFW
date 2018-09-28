@@ -11,7 +11,6 @@ class Rest extends CI_Controller {
 	}
 
 	public function index(){
-		echo "Hello Anggi APakabar";
 	}
 
 	// ------------------------ USER ------------------------------------
