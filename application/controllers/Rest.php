@@ -11,7 +11,7 @@ class Rest extends CI_Controller {
 	}
 
 	public function index(){
-		$this->load->view('welcome_message');
+		echo "Hello Anggi APakabar";
 	}
 
 	// ------------------------ USER ------------------------------------
