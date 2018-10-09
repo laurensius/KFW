@@ -144,7 +144,7 @@ class Rest extends CI_Controller {
 					"nama_lengkap" => $nama_lengkap,
 					"alamat" => $alamat,
 					"no_hp" => $no_hp,
-					"login_terrakhir" => date("Y-m-d H:i:s"));
+					"login_terakhir" => date("Y-m-d H:i:s"));
 				$resultcek = $this->mod_user->register($data);
 				if($resultcek > 0){
 					$severity = "success";
