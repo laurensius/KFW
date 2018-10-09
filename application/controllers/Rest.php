@@ -133,3 +133,53 @@ class Rest extends CI_Controller {
 
 
 }
+
+function verifikasi_register(){
+	if($this->input->post()!=null){
+		$username = $this->input->post('username');
+		$password = $this->input->post('password');
+		$nama_lengkap = $this->input->post('nama_lengkap');
+		$alamat = $this->input->post('alamat');
+		$no_hp = $this->input->post('no_hp');
+		$resultcek = $this->mod_user->is_registered($username);
+		if($resultcek==null){
+			$data = array(
+				"username" => $username,
+				"password" => md5($password),
+				"nama_lengkap" => $nama_lengkap,
+				"alamat" => $alamat,
+				"no_hp" => $no_hp,
+				"login_terrakhir" => date("Y-m-d H:i:s"));
+			$resultcek = $this->mod_user->register($data);
+			if($resultcek > 0){
+				$return = array(
+					"status_cek" => "SUCCESS",
+					"message" => "Pendaftaran berhasil",
+					"message_severity" => "success",
+					"data_user" => null);    
+			}else{
+				$return = array(
+					"status_cek" => "FAILED",
+					"message" => "Pendaftaran gagal. Silahkan coba lagi.",
+					"message_severity" => "warning",
+					"data_user" => null);  
+			}
+		}else{
+			 $return = array(
+				"status_cek" => "FOUND",
+				"message" => "Userneme sudah digunakan, cari username lainnya!",
+				"message_severity" => "danger",
+				"data_user" => null
+			);
+		} 
+	}else{
+		$return = array(
+			"status_cek" => "NO DATA POSTED",
+			"message" => "Tidak ada data dikirim ke server!",
+			"message_severity" => "danger",
+			"data_user" => null
+		);
+	}
+	echo json_encode(array("response"=>$return));
+}
+// ------------------------ END OF USER ------------------------------------

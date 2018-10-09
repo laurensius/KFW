@@ -18,5 +18,10 @@ class Mod_user extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+
+    function register($data){
+        $this->db->insert('t_user',$data);
+        return $this->db->affected_rows();
+    }
     
 }
