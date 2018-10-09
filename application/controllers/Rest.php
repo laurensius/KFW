@@ -98,14 +98,46 @@ class Rest extends CI_Controller {
 	}
 	
 	function verifikasi_register(){
-		if($this->input->post()!=null){
+		if($this->input->post('username') == null && 
+		$this->input->post('password') == null && 
+		$this->input->post('nama_lengkap') == null &&  
+		$this->input->post('alamat') == null && 
+		$this->input->post('no_hp') == null){
+			$login = file_get_contents('php://input');
+			$json = json_decode($login);
+			if($json == null){
+				$severity = "warning";
+				$message = "Tidak ada data dikirim ke server";
+				$data_count = "0";
+				$data = array();
+				$username = null;
+				$password = null;
+				$nama_lengkap = null;
+				$alamat = null;
+				$no_hp = null;
+			}else{
+				$username = $json->username;
+				$password = $json->password;
+				$nama_lengkap = $json->nama_lengkap;
+				$alamat = $json->alamat;
+				$no_hp = $json->no_hp;
+			}
+		}else{
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
 			$nama_lengkap = $this->input->post('nama_lengkap');
 			$alamat = $this->input->post('alamat');
 			$no_hp = $this->input->post('no_hp');
-			$resultcek = $this->mod_user->is_registered($username);
-			if($resultcek==null){
+		}
+
+		if($username != null && $password != null && $nama_lengkap != null && $alamat != null && $no_hp != null){
+			$check = $this->mod_user->is_registered($username);
+			if(sizeof($check) > 0){
+				$severity = "danger";
+				$message = "Nama pengguna sudah digunakan";
+				$data_count = "0";
+				$data = array();
+			}else{
 				$data = array(
 					"username" => $username,
 					"password" => md5($password),
@@ -115,40 +147,33 @@ class Rest extends CI_Controller {
 					"login_terrakhir" => date("Y-m-d H:i:s"));
 				$resultcek = $this->mod_user->register($data);
 				if($resultcek > 0){
-					$return = array(
-						"status_cek" => "SUCCESS",
-						"message" => "Pendaftaran berhasil",
-						"message_severity" => "success",
-						"data_user" => null);    
+					$severity = "success";
+					$message = "Registrasi berhasil";
+					$data_count = "0";
+					$data = array();
 				}else{
-					$return = array(
-						"status_cek" => "FAILED",
-						"message" => "Pendaftaran gagal. Silahkan coba lagi.",
-						"message_severity" => "warning",
-						"data_user" => null);  
+					$severity = "danger";
+					$message = "Registrasi gagal. Silakan coba lagi";
+					$data_count = "0";
+					$data = array();
 				}
-			}else{
-				 $return = array(
-					"status_cek" => "FOUND",
-					"message" => "Userneme sudah digunakan, cari username lainnya!",
-					"message_severity" => "danger",
-					"data_user" => null
-				);
-			} 
+			}
 		}else{
-			$return = array(
-				"status_cek" => "NO DATA POSTED",
-				"message" => "Tidak ada data dikirim ke server!",
-				"message_severity" => "danger",
-				"data_user" => null
-			);
+			$severity = "warning";
+			$message = "Tidak ada data dikirim ke server";
+			$data_count = "0";
+			$data = array();
 		}
-		echo json_encode(array("response"=>$return));
+		$response = array(
+			"severity" => $severity,
+			"message" => $message,
+			"data_count" => $data_count,
+			"data" => $data
+		);
+		echo json_encode($response,JSON_PRETTY_PRINT);
 	}
 	// ------------------------ END OF USER ------------------------------------
 	
-	// ------------------------ END OF USER ------------------------------------
-
 
 	// ------------------------ TOKO ------------------------------------
 	function toko_detail($id = null){
