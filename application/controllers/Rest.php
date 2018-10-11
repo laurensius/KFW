@@ -7,6 +7,7 @@ class Rest extends CI_Controller {
 		parent::__construct();
 		$this->load->model('mod_user');
 		$this->load->model('mod_toko');
+		$this->load->model('mod_kategori');
 		header('Content-type:json');
 	}
 
@@ -211,7 +212,11 @@ class Rest extends CI_Controller {
 	}
 	// ------------------------ END OF TOKO ------------------------------------
 
+	function load_kategori(){
+		$response = $this->mod_kategori->select();
+		echo json_encode($response,JSON_PRETTY_PRINT);
 
+	}
 
 }
 
