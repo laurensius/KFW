@@ -70,29 +70,34 @@ class Rest extends CI_Controller {
 					$message = "Login berhasil";
 					$data_count = (string)sizeof($check);
 					$data = $check;
+					$toko = $this->mod_toko->toko_detail(array("id_user" => $check[0]->id));
 				}else{
 					$severity = "warning";
 					$message = "Nama pengguna dan kata sandi tidak sesuai";
 					$data_count = "0";
 					$data = array();
+					$toko = array();
 				}
 			}else{
 				$severity = "danger";
 				$message = "Nama pengguna tidak terdaftar";
 				$data_count = "0";
 				$data = $check;
+				$toko = array();
 			}
 		}else{
 			$severity = "warning";
 			$message = "Tidak ada data dikirim ke server";
 			$data_count = "0";
 			$data = array();
+			$toko = array();
 		}
 		$response = array(
 			"severity" => $severity,
 			"message" => $message,
 			"data_count" => $data_count,
-			"data" => $data
+			"data" => $data,
+			"toko" => $toko
 		);
 		echo json_encode($response,JSON_PRETTY_PRINT);
 	}
