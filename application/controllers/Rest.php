@@ -212,7 +212,7 @@ class Rest extends CI_Controller {
 	}
 	// ------------------------ END OF TOKO ------------------------------------
 
-	private function load_kategori(){
+	function load_kategori(){
 		$response = $this->mod_kategori->select();
 		echo json_encode($response,JSON_PRETTY_PRINT);
 
