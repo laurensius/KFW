@@ -8,6 +8,7 @@ class Rest extends CI_Controller {
 		$this->load->model('mod_user');
 		$this->load->model('mod_toko');
 		$this->load->model('mod_kategori');
+		$this->load->model('mod_produk');
 		header('Content-type:json');
 	}
 
