@@ -21,7 +21,7 @@ class Mod_produk extends CI_Model {
                 t_toko.id as id_toko,    
                 t_toko.nama_toko,
                 t_user.id as id_user,
-                t_user.nama_user 
+                t_user.nama_lengkap 
                 ");
                 $this->db->from("t_produk");
                 $this->db->join("t_toko","t_produk.id_toko = t_toko.id","inner");
