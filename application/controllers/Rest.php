@@ -218,7 +218,6 @@ class Rest extends CI_Controller {
 			"kategori" => $data
 		);
 		echo json_encode($response,JSON_PRETTY_PRINT);
-
 	}
 
 }
