@@ -282,13 +282,13 @@ class Rest extends CI_Controller {
 				$severity = "success";
 				$message = "Upload produk berhasil";
 				$data_count = "0";
-				$data = aray();
+				$data = array();
 				$toko = array();
 			}else{
 				$severity = "warning";
 				$message = "Upload produk gagal";
 				$data_count = "0";
-				$data = aray();
+				$data = array();
 				$toko = array();
 			}
 		}else{
