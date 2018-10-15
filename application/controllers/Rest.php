@@ -220,5 +220,92 @@ class Rest extends CI_Controller {
 		echo json_encode($response,JSON_PRETTY_PRINT);
 	}
 
+	function upload_produk(){
+		if($this->input->post('id_toko') == null &&
+		 $this->input->post('id_kategori') == null &&
+		 $this->input->post('nama_produk') == null &&
+		 $this->input->post('harga') == null &&
+		 $this->input->post('deskripsi') == null &&
+		 $this->input->post('status') == null &&
+		 $this->input->post('image') == null){
+			$login = file_get_contents('php://input');
+			$json = json_decode($login);
+			if($json == null){
+				$severity = "warning";
+				$message = "Tidak ada data dikirim ke server";
+				$data_count = "0";
+				$data = array();
+				$id_toko = null;
+				$id_kategori = null;
+				$nama_produk = null;
+				$harga = null;
+				$deskripsi = null;
+				$status = null;
+				$image = null;
+			}else{
+				$id_toko = $json->id_toko;
+				$id_kategori = $json->id_kategori;
+				$nama_produk = $json->nama_produk;
+				$harga = $json->harga;
+				$deskripsi = $json->deskripsi;
+				$status = $json->status;
+				$image = $json->image;
+			}
+		}else{
+			$id_toko = $this->input->post('id_toko');
+			$id_kategori =$this->input->post('id_kategori');
+			$nama_produk = $this->input->post('nama_produk');
+			$harga = $this->input->post('harga');
+			$deskripsi = $this->input->post('deskripsi');
+			$status = $this->input->post('status');
+			$image = $this->input->post('image');
+		}
+		if($id_toko != null && 
+		$id_kategori != null &&
+		$nama_produk != null &&
+		$harga != null &&
+		$deskripsi != null &&
+		$status != null &&
+		$image != null){
+			$arr_data  = array(
+				"id_toko" => $id_toko,
+				"id_kategori" => $id_kategori,
+				"nama_produk" => $nama_produk,
+				"harga" => $harga,
+				"deskripsi" => $deskripsi,
+				"status" => $status,
+				"image" => $image
+			)
+			$ins = $this->mod_produk->insert($arr_data);
+			if($ins > 0){
+				$severity = "success";
+				$message = "Upload produk berhasil";
+				$data_count = "0";
+				$data = aray();
+				$toko = array();
+			}else{
+				$severity = "warning";
+				$message = "Upload produk gagal";
+				$data_count = "0";
+				$data = aray();
+				$toko = array();
+			}
+		}else{
+			$severity = "danger";
+			$message = "Tidak ada data dikirim ke server";
+			$data_count = "0";
+			$data = array();
+			$toko = array();
+		}
+		$response = array(
+			"severity" => $severity,
+			"message" => $message,
+			"data_count" => $data_count,
+			"data" => $data,
+			"toko" => $toko
+		);
+		echo json_encode($response,JSON_PRETTY_PRINT);
+	}
+
 }
 
