@@ -26,7 +26,7 @@ class Mod_produk extends CI_Model {
                 $this->db->from("t_produk");
                 $this->db->join("t_toko","t_produk.id_toko = t_toko.id","inner");
                 $this->db->join("t_user","t_user.id = t_toko.id_user","inner");
-                $this->db->order_by("id","desc");
+                $this->db->order_by("t_produk.id","desc");
                 $this->db->limit($limit);
                 $query = $this->db->get();
                 return $query->result();
