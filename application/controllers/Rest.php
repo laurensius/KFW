@@ -275,7 +275,7 @@ class Rest extends CI_Controller {
 				"deskripsi" => $deskripsi,
 				"status" => $status,
 				"image" => $image
-			)
+			);
 			$ins = $this->mod_produk->insert($arr_data);
 			if($ins > 0){
 				$severity = "success";
