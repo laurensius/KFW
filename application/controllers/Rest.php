@@ -315,7 +315,7 @@ class Rest extends CI_Controller {
 		if(sizeof($load) > 0){
 			$severity = "success";
 			$message = "Load data berhasil";
-			$data_count = string(sizeof($load));
+			$data_count = String(sizeof($load));
 			$data = $load;
 		}else{
 			$severity = "danger";
