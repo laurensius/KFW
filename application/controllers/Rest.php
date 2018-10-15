@@ -221,6 +221,8 @@ class Rest extends CI_Controller {
 		echo json_encode($response,JSON_PRETTY_PRINT);
 	}
 
+
+
 	function upload_produk(){
 		if($this->input->post('id_toko') == null &&
 		 $this->input->post('id_kategori') == null &&
@@ -304,6 +306,28 @@ class Rest extends CI_Controller {
 			"data_count" => $data_count,
 			"data" => $data,
 			"toko" => $toko
+		);
+		echo json_encode($response,JSON_PRETTY_PRINT);
+	}
+
+	public function produk_terbaru($limit=3){
+		$load = $this->mod_produk->produk_terbaru($limit);
+		if(sizeof($load) > 0){
+			$severity = "success";
+			$message = "Load data berhasil";
+			$data_count = string(sizeof($load));
+			$data = $load;
+		}else{
+			$severity = "danger";
+			$message = "Tidak ada data";
+			$data_count = "0";
+			$data = array();
+		}
+		$response = array(
+			"severity" => $severity,
+			"message" => $message,
+			"data_count" => $data_count,
+			"data" => $data,
 		);
 		echo json_encode($response,JSON_PRETTY_PRINT);
 	}
