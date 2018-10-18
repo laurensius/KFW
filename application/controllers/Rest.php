@@ -332,5 +332,30 @@ class Rest extends CI_Controller {
 		echo json_encode($response,JSON_PRETTY_PRINT);
 	}
 
+	public function produk_detail(){
+		$param_where = array(
+			"t_produk.id" => $this->uri->segment(3)
+		);
+		$load = $this->mod_produk->produk_detail($param_where);
+		if(sizeof($load) > 0){
+			$severity = "success";
+			$message = "Load data berhasil";
+			$data_count = (string)sizeof($load);
+			$data = $load;
+		}else{
+			$severity = "danger";
+			$message = "Tidak ada data";
+			$data_count = "0";
+			$data = array();
+		}
+		$response = array(
+			"severity" => $severity,
+			"message" => $message,
+			"data_count" => $data_count,
+			"data" => $data,
+		);
+		echo json_encode($response,JSON_PRETTY_PRINT);
+	}
+
 }
 
