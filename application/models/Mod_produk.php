@@ -49,6 +49,7 @@ class Mod_produk extends CI_Model {
                 t_kategori.kategori,    
                 t_toko.id as id_toko,    
                 t_toko.nama_toko,
+                t_toko.alamat as alamat_toko,
                 t_user.id as id_user,
                 t_user.nama_lengkap 
                 ");
