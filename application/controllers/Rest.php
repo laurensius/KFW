@@ -222,7 +222,7 @@ class Rest extends CI_Controller {
 	}
 
 
-
+	// ------------------------ PRODUK ------------------------------------
 	function upload_produk(){
 		if($this->input->post('id_toko') == null &&
 		 $this->input->post('id_kategori') == null &&
@@ -345,6 +345,36 @@ class Rest extends CI_Controller {
 		}else{
 			$severity = "danger";
 			$message = "Tidak ada data";
+			$data_count = "0";
+			$data = array();
+		}
+		$response = array(
+			"severity" => $severity,
+			"message" => $message,
+			"data_count" => $data_count,
+			"data" => $data,
+		);
+		echo json_encode($response,JSON_PRETTY_PRINT);
+	}
+
+	public function produk_keranjang(){
+		if($this->uri->segment(3) != null){
+			$raw_id = explode("_",$this->uri->segment(3));
+			$load = $this->mod_produk->produk_keranjang($raw_id);
+			if(sizeof($load) > 0){
+				$severity = "success";
+				$message = "Load data berhasil";
+				$data_count = (string)sizeof($load);
+				$data = $load;
+			}else{
+				$severity = "danger";
+				$message = "Tidak ada data";
+				$data_count = "0";
+				$data = array();
+			}
+		}else{
+			$severity = "danger";
+			$message = "Tidak ada data dikirim ke server";
 			$data_count = "0";
 			$data = array();
 		}

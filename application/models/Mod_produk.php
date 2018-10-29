@@ -61,4 +61,31 @@ class Mod_produk extends CI_Model {
                 $query = $this->db->get();
                 return $query->result();
         }
+
+        function produk_keranjang($array_id){
+                $this->db->select("
+                t_produk.id as id_produk,
+                t_produk.id_toko,
+                t_produk.id_kategori,
+                t_produk.nama_produk,
+                t_produk.harga, 
+                t_produk.deskripsi,
+                t_produk.status,
+                t_produk.image,  
+                t_kategori.id as id_kategori,
+                t_kategori.kategori,    
+                t_toko.id as id_toko,    
+                t_toko.nama_toko,
+                t_toko.alamat as alamat_toko,
+                t_user.id as id_user,
+                t_user.nama_lengkap 
+                ");
+                $this->db->from("t_produk");
+                $this->db->join("t_toko","t_produk.id_toko = t_toko.id","inner");
+                $this->db->join("t_kategori","t_produk.id_kategori = t_kategori.id","inner");
+                $this->db->join("t_user","t_user.id = t_toko.id_user","inner");
+                $this->db->where_in("t_produk.id",$array_id);
+                $query = $this->db->get();
+                return $query->result();
+        }
 }
